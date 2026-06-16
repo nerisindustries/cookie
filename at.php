@@ -1,8 +1,12 @@
 <?php
 
-if (isset($_GET['tema'])) {
-    $opcao_tema = $_GET['tema'];
-    setcookie("tema_usuario", $opcao_tema, time() + 3600, "/");
+if (isset($_POST['salvar'])) {
+    $nome_usuario = $_POST['nome'];
+    $idade_usuario = $_POST['idade'];
+    
+    
+    setcookie("usuario_nome", $nome_usuario, time() + 3600, "/");
+    setcookie("usuario_idade", $idade_usuario, time() + 3600, "/");
     
     
     header("Location: /att/cookie/at.php");
@@ -10,42 +14,63 @@ if (isset($_GET['tema'])) {
 }
 
 
-if (isset($_GET['resetar'])) {
-    setcookie("tema_usuario", "", time() - 3600, "/");
+if (isset($_GET['limpar'])) {
+    setcookie("usuario_nome", "", time() - 3600, "/");
+    setcookie("usuario_idade", "", time() - 3600, "/");
     
-   
     header("Location: /att/cookie/at.php");
     exit;
 }
 
 
-$tema_atual = isset($_COOKIE['tema_usuario']) ? $_COOKIE['tema_usuario'] : 'claro';
+$nome_salvo = isset($_COOKIE['usuario_nome']) ? $_COOKIE['usuario_nome'] : "";
+$idade_salva = isset($_COOKIE['usuario_idade']) ? $_COOKIE['usuario_idade'] : "";
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Exemplo de Cookie no PHP</title>
+    <title>Exemplo de Cookie no PHP - Cadastro</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 40px; 
-            background-color: <?php echo $tema_atual === 'escuro' ? '#333' : '#fff'; ?>;
-            color: <?php echo $tema_atual === 'escuro' ? '#fff' : '#333'; ?>;
-        }
-        a { color: #007BFF; margin-right: 15px; text-decoration: none; }
+        body { font-family: Arial, sans-serif; padding: 40px; background-color: #fff; color: #333; }
+        .formulario { margin-bottom: 20px; padding: 20px; border: 1px solid #ccc; max-width: 300px; }
+        .campo { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 15px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+        a { color: #DC3545; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <h1>O tema atual é: <?php echo ucwords($tema_atual); ?></h1>
-    <p>
+    
+    <?php if ($nome_salvo !== ""): ?>
         
-        <a href="/att/cookie/at.php?tema=claro">Ativar Tema Claro</a>
-        <a href="/att/cookie/at.php?tema=escuro">Ativar Tema Escuro</a>
-        <a href="/att/cookie/at.php?resetar=1">Deletar Cookie (Resetar)</a>
-    </p>
+        <h1>Bem-vindo de volta, <?php echo htmlspecialchars($nome_salvo); ?>!</h1>
+        <p>Sua idade salva no sistema é de: <?php echo htmlspecialchars($idade_salva); ?> anos.</p>
+        <p><a href="/att/cookie/at.php?limpar=1">Esquecer meus dados (Deletar Cookies)</a></p>
+
+    
+    <?php else: ?>
+        
+        <h1>Identifique-se</h1>
+        <div class="formulario">
+            <form action="/att/cookie/at.php" method="POST">
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="campo">
+                    <label for="idade">Idade:</label>
+                    <input type="number" id="idade" name="idade" required>
+                </div>
+                <button type="submit" name="salvar">Salvar Dados</button>
+            </form>
+        </div>
+        <p>Nenhum dado salvo no momento. Preencha o formulário para testar.</p>
+
+    <?php endif; ?>
 
 </body>
 </html>
