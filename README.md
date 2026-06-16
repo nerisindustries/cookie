@@ -6,7 +6,7 @@ Este projeto foi desenvolvido para demonstrar o funcionamento prático de cookie
 
  Conteúdo Complementar em Vídeo
 
-Para uma demonstração visual do funcionamento deste projeto e explicações adicionais, assista ao vídeo explicativo pelo link abaixo:
+Para  explicações adicionais, assista ao vídeo explicativo pelo link abaixo:
 https://youtube.com
 
 ---
